@@ -2,13 +2,11 @@ filename = myfile
 
 bibname = mybib
 
+autogens = *.aux *.bbl *.bcf *.blg *.log *.out *.pyg *.run.xlm auto/
+
 TEX = pdflatex -shell-escape -interaction=nonstopmode -file-line-error
 MD2TEX = pandoc --biblatex -s -R -S -f markdown -t latex
 BIB = biber
-
-autogens = $(filename).aux $(filename).bbl $(filename).bcf \
-		$(filename).blg $(filename).log $(filename).out \
-		$(filename).pyg $(filename).run.xml auto/
 
 $(filename).pdf : $(filename).tex $(filename).bbl
 	$(TEX) $(filename)
