@@ -22,7 +22,7 @@ $(filename).bbl : $(filename).bcf
 $(filename).bcf : $(filename).tex $(bibname).bib
 	$(TEX) $(filename)
 
-.PHONY : clean purge count
+.PHONY : clean purge count touch
 clean :
 	-rm -rf $(autogens)
 
@@ -31,3 +31,6 @@ purge :
 
 count :
 	texcount $(filename).tex
+
+touch :
+	touch $(filename).md
