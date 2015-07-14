@@ -1,0 +1,46 @@
+filename = myfile
+
+autogens = *.aux *.bbl *.bcf *.blg *.log *.out *.pyg *.run.xlm auto/
+
+TEX = pdflatex -shell-escape -interaction=nonstopmode -file-line-error
+MD2TEX = pandoc --biblatex -s -R -S -f markdown -t latex
+BIB = biber
+
+all: $(filename)_passage.pdf $(filename)_outline.pdf $(filename)_transcript.pdf
+
+$(filename)_passage.pdf : $(filename)_passage.tex
+	$(TEX) $(filename)_passage
+
+$(filename)_outline.pdf : $(filename)_outline.tex $(filename)_outline.aux
+	$(TEX) $(filename)_outline
+
+$(filename)_outline.aux : $(filename)_outline.tex
+	$(TEX) $(filename)_outline
+
+$(filename)_outline.tex : $(filename)_outline.md
+	$(MD2TEX) -o $(filename)_outline.tex $(filename)_outline.md
+
+$(filename)_transcript.pdf : $(filename)_transcript.tex $(filename)_transcript.aux
+	$(TEX) $(filename)_transcript
+
+$(filename)_transcript.aux : $(filename)_transcript.tex
+	$(TEX) $(filename)_transcript
+
+$(filename)_transcript.tex : $(filename)_transcript.md
+	$(MD2TEX) -o $(filename)_transcript.tex $(filename)_transcript.md
+
+.PHONY : clean purge touch count
+clean :
+	-rm -rf $(autogens)
+
+purge :
+	-rm -rf $(autogens) $(filename)_passage.pdf $(filename)_outline.tex \
+	$(filename)_outline.pdf
+
+touch :
+	touch $(filename)_passage.tex
+	touch $(filename)_outline.md
+	touch $(filename)_transcript.md
+
+count : $(filename)_transcript.tex
+	texcount $(filename)_transcript.tex
