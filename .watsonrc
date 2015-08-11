@@ -1,0 +1,28 @@
+# watson rc
+# watson - inline issue manager
+# [goosecode] labs
+
+
+# Directories
+[dirs]
+./
+
+
+# Tags
+[tags]
+fix
+review
+todo
+
+
+# Ignores
+[ignore]
+.git
+*.swp
+
+
+[github_api]
+andyholt=ef05b9f5eedebcf438b4897810a972af6d27331c
+
+
+
