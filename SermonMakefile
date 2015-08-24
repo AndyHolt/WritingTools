@@ -1,6 +1,6 @@
 filename = myfile
 
-autogens = *.aux *.bbl *.bcf *.blg *.log *.out *.pyg *.run.xlm auto/
+autogens = *.aux *.bbl *.bcf *.blg *.log *.out *.pyg *.run.xml auto/
 
 TEX = pdflatex -shell-escape -interaction=nonstopmode -file-line-error
 MD2TEX = pandoc --biblatex -s -R -S -f markdown -t latex
