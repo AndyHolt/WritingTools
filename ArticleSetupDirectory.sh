@@ -1,6 +1,15 @@
 #! /bin/zsh
 
 echo "Setting up for article writing in directory $PWD."
+
+# ensure WritingTools directory exists, else error and exit
+if [[ -d ~/Projects/WritingTools ]]; then
+    WTS=~/Projects/WritingTools
+else
+    echo "Directory ~/Projects/WritingTools not found. Aborting." 1>&2
+    exit 1
+fi
+
 projectname=`basename "$PWD"`
 
 # get operating system type
@@ -23,11 +32,11 @@ fi
 # echo "Done"
 
 echo "Getting Theology.bib..."
-ln -s ~/Projects/WritingTools/Theology.bib $PWD/.
+ln -s $WTS/Theology.bib $PWD/.
 echo "Done"
 
 echo "Copying Makefile..."
-cp ~/Projects/WritingTools/ArticleMakefile $PWD/Makefile
+cp $WTS/ArticleMakefile $PWD/Makefile
 echo "Editing Makefile..."
 if [[ $LINUX -eq 1 ]]; then
     sed -i "s#myfile#$projectname#gi" Makefile
@@ -39,13 +48,17 @@ fi
 echo "Done"
 
 echo "Copying Guardfile..."
-cp ~/Projects/WritingTools/ArticleGuardfile $PWD/Guardfile
+cp $WTS/ArticleGuardfile $PWD/Guardfile
 echo "Editing Guardfile"
 if [[ $LINUX -eq 1 ]]; then
     sed -i "s#myfile#$projectname#gi" Guardfile
 elif [[ $OSX -eq 1 ]]; then
     sed -i '' -e "s#myfile#$projectname#g" Guardfile
 fi
+echo "Done"
+
+echo "Copying markdownlint style file"
+cp $WTS/article.rb $PWD/article.rb
 echo "Done"
 
 echo "Create markdown file"
