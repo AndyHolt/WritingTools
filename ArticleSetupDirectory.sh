@@ -57,11 +57,11 @@ elif [[ $OSX -eq 1 ]]; then
 fi
 echo "Done"
 
-echo "Copying markdownlint style file"
-cp $WTS/article.rb $PWD/article.rb
+echo "Copying markdownlint style file..."
+cp $WTS/article.mdl.rb $PWD/article.mdl.rb
 echo "Done"
 
-echo "Create markdown file"
+echo "Create markdown file..."
 # touch $projectname.md
 make touch
 echo "Done"

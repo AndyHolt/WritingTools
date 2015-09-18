@@ -7,7 +7,7 @@ autogens = *.aux *.bbl *.bcf *.blg *.log *.out *.pyg *.run.xml auto/
 TEX = pdflatex -shell-escape -interaction=nonstopmode -file-line-error
 MD2TEX = pandoc --biblatex -s -R -S -f markdown -t latex
 BIB = biber
-MDL = mdl -s article.rb
+MDL = mdl -s article.mdl.rb
 
 $(filename).pdf : $(filename).tex $(filename).bbl
 	$(TEX) $(filename)
