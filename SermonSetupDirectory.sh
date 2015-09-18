@@ -1,6 +1,15 @@
 #! /bin/zsh
 
 echo "Setting up for sermon in directory $PWD."
+
+# ensure WritingTools directory exists, else error and exit
+if [[ -d ~/Projects/WritingTools ]]; then
+    WTS=~/Projects/WritingTools
+else
+    echo "Directory ~/Projects/WritingTools not found. Aborting." 1>&2
+    exit 1
+fi
+
 projectname=`basename "$PWD"`
 
 # get operating system type
@@ -23,7 +32,7 @@ fi
 # echo "Done"
 
 echo "Copying Makefile..."
-cp ~/Projects/WritingTools/SermonMakefile $PWD/Makefile
+cp $WTS/SermonMakefile $PWD/Makefile
 echo "Editing Makefile..."
 if [[ $LINUX -eq 1 ]]; then
     sed -i "s#myfile#$projectname#gi" Makefile
@@ -33,7 +42,7 @@ fi
 echo "Done"
 
 echo "Copying Guardfile..."
-cp ~/Projects/WritingTools/SermonGuardfile $PWD/Guardfile
+cp $WTS/SermonGuardfile $PWD/Guardfile
 echo "Editing Guardfile"
 if [[ $LINUX -eq 1 ]]; then
     sed -i "s#myfile#$projectname#gi" Guardfile
@@ -42,7 +51,11 @@ elif [[ $OSX -eq 1 ]]; then
 fi
 echo "Done"
 
-echo "Creating user files"
+echo "Copying markdownlint style file..."
+cp $WTS/sermon.mdl.rb $PWD/sermon.mdl.rb
+echo "Done"
+
+echo "Creating user files..."
 # touch $projectname.md
 make touch
 echo "Done"
