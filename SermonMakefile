@@ -1,4 +1,5 @@
 filename = myfile
+passage = mypassage
 
 autogens = *.aux *.bbl *.bcf *.blg *.log *.out *.pyg *.run.xml auto/
 
@@ -7,10 +8,10 @@ MD2TEX = pandoc --biblatex -s -R -S -f markdown -t latex
 BIB = biber
 MDL = mdl -s sermon.mdl.rb
 
-all: $(filename)_passage.pdf $(filename)_outline.pdf $(filename)_transcript.pdf
+all: $(passage)Polyglot.pdf $(filename)_outline.pdf $(filename)_transcript.pdf
 
-$(filename)_passage.pdf : $(filename)_passage.tex
-	$(TEX) $(filename)_passage
+$(passage)Polyglot.pdf : $(passage)Polyglot.tex
+	$(TEX) $(passage)Polyglot
 
 $(filename)_outline.pdf : $(filename)_outline.tex $(filename)_outline.aux
 	$(TEX) $(filename)_outline
@@ -18,7 +19,7 @@ $(filename)_outline.pdf : $(filename)_outline.tex $(filename)_outline.aux
 $(filename)_outline.aux : $(filename)_outline.tex
 	$(TEX) $(filename)_outline
 
-$(filename)_outline.tex : $(filename)_outline.md test_ol
+$(filename)_outline.tex : $(filename)_outline.md
 	$(MD2TEX) -o $(filename)_outline.tex $(filename)_outline.md
 
 $(filename)_transcript.pdf : $(filename)_transcript.tex $(filename)_transcript.aux
@@ -27,25 +28,19 @@ $(filename)_transcript.pdf : $(filename)_transcript.tex $(filename)_transcript.a
 $(filename)_transcript.aux : $(filename)_transcript.tex
 	$(TEX) $(filename)_transcript
 
-$(filename)_transcript.tex : $(filename)_transcript.md test_tr
+$(filename)_transcript.tex : $(filename)_transcript.md
 	$(MD2TEX) -o $(filename)_transcript.tex $(filename)_transcript.md
 
-.PHONY : test_ol test_tr clean purge touch count
-test_ol :
-	$(MDL) $(filename)_outline.md
-
-test_tr :
-	$(MDL) $(filename)_transcript.md
-
+.PHONY : clean purge touch count
 clean :
 	-rm -rf $(autogens)
 
 purge :
-	-rm -rf $(autogens) $(filename)_passage.pdf $(filename)_outline.tex \
+	-rm -rf $(autogens) $(passage)Polyglot.pdf $(filename)_outline.tex \
 	$(filename)_outline.pdf
 
 touch :
-	touch $(filename)_passage.tex
+	touch $(passage)Polyglot.tex
 	touch $(filename)_outline.md
 	touch $(filename)_transcript.md
 
