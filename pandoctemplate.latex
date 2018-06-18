@@ -1,7 +1,7 @@
 \documentclass[$if(fontsize)$$fontsize$,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}
 
 $if(bibstyle)$
-\usepackage[style=$bibstyle$]{biblatex}
+\usepackage[style=$bibstyle$,$for(bibopt)$$bibopt$$sep$,$endfor$]{biblatex}
 $if(bibfiles)$
 \addbibresource{$bibfiles$}
 $endif$
@@ -21,6 +21,28 @@ $for(header-includes)$
 $header-includes$
 $endfor$
 
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+$if(numbersections)$
+\setcounter{secnumdepth}{5}
+$else$
+\setcounter{secnumdepth}{0}
+$endif$
+
+$if(subparagraph)$
+$else$
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+$endif$
+
 \begin{document}
 $if(title)$
 \maketitle
@@ -34,7 +56,9 @@ $endif$
 $body$
 
 $if(bibstyle)$
+$if(inclbib)$
 \printbibliography
+$endif$
 
 $endif$
 $for(include-after)$
