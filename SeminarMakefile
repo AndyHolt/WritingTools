@@ -1,0 +1,38 @@
+filename = myfile
+
+# bibname = mybib
+
+autogens = *.aux *.bbl *.bcf *.blg *.log *.out *.pyg *.run.xml auto/
+
+TEX = pdflatex -shell-escape -interaction=nonstopmode -file-line-error
+MD2TEX = pandoc --biblatex -s -R -S -f markdown -t latex
+BIB = biber
+PDF2BOOK = pdfbook2 -p a4paper -o 40 -i 80 -t 20 -b 20
+
+$(filename)_handout-book.pdf : $(filename)_handout.pdf
+	$(PDF2BOOK) $(filename)_handout.pdf
+
+$(filename)_handout.pdf : $(filename)_handout.tex $(filename)_handout.bbl
+	$(TEX) $(filename)_handout
+
+$(filename)_handout.tex : $(filename)_handout.md
+	$(MD2TEX) -o $(filename)_handout.tex $(filename)_handout.md
+
+$(filename)_handout.bbl : $(filename)_handout.bcf
+	$(BIB) $(filename)_handout
+
+$(filename)_handout.bcf : $(filename)_handout.tex
+	$(TEX) $(filename)_handout
+
+.PHONY : clean purge count touch
+clean :
+	-rm -rf $(autogens)
+
+purge :
+	-rm -rf $(autogens) $(filename)_handout.tex $(filename)_handout.pdf
+
+count :
+	texcount $(filename)_handout.tex
+
+touch :
+	touch $(filename)_handout.md

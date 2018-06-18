@@ -1,0 +1,12 @@
+# [review] - is this regexp correct?
+guard :shell do
+  watch /myfile_handout\.md/ do |m| 
+    `make`
+    `make clean`
+
+    msg = "Built myfile_handout.pdf"
+    n msg, 'LaTeX', :success
+    `open myfile_handout.pdf`
+    `osascript -e 'tell application "Emacs" to activate'`
+  end
+end
