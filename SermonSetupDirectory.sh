@@ -51,9 +51,12 @@ elif [[ $OSX -eq 1 ]]; then
 fi
 echo "Done"
 
-echo "Copying markdownlint style file..."
-cp $WTS/sermon.mdl.rb $PWD/sermon.mdl.rb
-echo "Done"
+# echo "Copying markdownlint style file..."
+# cp $WTS/sermon.mdl.rb $PWD/sermon.mdl.rb
+# echo "Done"
+
+# make polyglot of passage
+Erasmus
 
 echo "Creating user files..."
 # touch $projectname.md
