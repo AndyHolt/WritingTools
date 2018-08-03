@@ -41,6 +41,7 @@ purge :
 
 touch :
 	touch $(passage)Polyglot.tex
+	touch $(filename)_outline.org
 	touch $(filename)_outline.md
 	touch $(filename)_transcript.md
 
