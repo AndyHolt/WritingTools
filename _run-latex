@@ -1,0 +1,12 @@
+#compdef _run-latex run-latex
+
+function _run-latex {
+    local line
+
+    _arguments \
+               '--help[Show help information]' \
+               '-p[TeX product to be used]:TeX Product:(xelatex pdflatex \
+                              lualatex)' \
+               '-o[Output directory]:directory:_path_files -/' \
+               ':tex-file:_path_files -g "*.tex"'    
+}

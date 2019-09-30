@@ -1,0 +1,96 @@
+#!/usr/local/bin/python3
+# -*- coding: utf-8 -*-
+"""
+Call latexmk with correct settings for a file.
+
+Depending on which TeX product is required, call latexmk to compile document
+using that TeX product (pdfLaTeX, XeLaTeX, LuaLaTeX).
+
+This is largely because the calls made by Emacs Org Mode LaTeX exporting are
+different from the calling options for latexmk, so this is an interface between
+them.
+
+But also more useful interface from commandline. More useful in this case means
+only the options I want regularly are exposed.
+"""
+# Author: Andy Holt
+# Date: Wed 17 Jul 2019 13:12
+# Usage: run-latex [-p product] [-o output_file] file
+
+import click
+import subprocess
+
+@click.command()
+@click.option('-p', '--product', 'tex_product',
+              type=click.Choice(['xelatex', 'pdflatex', 'lualatex']),
+              default='xelatex')
+@click.option('-o', '--output-directory', 'output_directory',
+              type=click.Path())
+@click.argument('file_name',
+                nargs=-1,
+                required=True,
+                type=click.Path(exists=True))
+def run_latex_cli(tex_product, output_directory, file_name):
+    """
+    Call latexmk with correct settings for a file.
+
+    Depending on which TeX product is required, call latexmk to compile document
+    using that TeX product (pdfLaTeX, XeLaTeX, LuaLaTeX).
+
+    This is largely because the calls made by Emacs Org Mode LaTeX exporting are
+    different from the calling options for latexmk, so this is an interface between
+    them.
+
+    But also more useful interface from commandline. More useful in this case means
+    only the options I want regularly are exposed.
+    """
+    run_latex(tex_product, output_directory, file_name)
+
+def run_latex(tex_product, output_directory, file_name):
+    """
+    Run latexmk with appropriate arguments.
+    
+    Arguments:
+    - `tex_product`: choice of latex product, default is xelatex
+    - `output_directory`: base directory of file (for emacs export, primarily)
+    - `file_name`:   tex file name/path    
+    """
+    print("TeX Product set to: {0}".format(tex_product))
+    print("Output directory set to: {0}".format(output_directory))
+    print("TeX file(s) set to: {0}".format(' '.join(file_name)))
+
+    # Set output file path option
+    if output_directory == None:
+        output_string = ''
+    else:
+        output_string = '-output-directory {0}'.format(output_directory)
+
+    # set option for latexmk depending on product
+    if tex_product == 'xelatex':
+        product_string = '-xelatex'
+        command_string = '-pdfxelatex=xelatex -interaction nonstopmode --shell-escape %O {0} %S'.format(output_string) 
+    elif tex_product == 'pdflatex':
+        product_string = '-pdf -dvi- -ps-'
+        command_string = '-pdflatex=pdflatex --shell-escape %O {0} %S'.format(output_string)
+    elif tex_product == 'lualatex':
+        product_string = '-lualatex'
+        command_string = '-pdflualatex=lualatex --shell-escape %O {0} %S'.format(output_string)
+    else:
+        product_string = ''
+        command_strong = ''
+
+    # build latexmk command
+    latexmk_command = 'latexmk {0} {1} {2}'.format(product_string,
+                                                   command_string,
+                                                   ' '.join(file_name))
+
+    latexmk_command_list = ['latexmk', product_string, command_string, ' '.join(file_name)]
+
+    print(latexmk_command)
+    print(latexmk_command_list)
+
+    subprocess.run(['latexmk', product_string, command_string, ' '.join(file_name)])
+    # subprocess.run(latexmk_command, shell=True)
+
+if __name__ == '__main__':
+    run_latex_cli()
