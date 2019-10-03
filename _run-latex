@@ -8,5 +8,5 @@ function _run-latex {
                '-p[TeX product to be used]:TeX Product:(xelatex pdflatex \
                               lualatex)' \
                '-o[Output directory]:directory:_path_files -/' \
-               ':tex-file:_path_files -g "*.tex"'    
+               ':tex-file:_path_files -g "*.tex"'
 }
