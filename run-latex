@@ -70,7 +70,7 @@ def run_latex(tex_product, output_directory, file_name):
         product_string = '-xelatex'
         command_string = '-pdfxelatex=xelatex -interaction nonstopmode --shell-escape %O {0} %S'.format(output_string) 
     elif tex_product == 'pdflatex':
-        product_string = '-pdf -dvi- -ps-'
+        product_string = '-pdf'
         command_string = '-pdflatex=pdflatex --shell-escape %O {0} %S'.format(output_string)
     elif tex_product == 'lualatex':
         product_string = '-lualatex'
