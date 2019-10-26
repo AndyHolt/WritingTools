@@ -100,7 +100,7 @@ def run_latex(tex_product, output_directory, file_name):
     ]
 
     print(latexmk_command)
-    print(latexmk_command_list)
+    # print(latexmk_command_list)
 
     subprocess.run(["latexmk", product_string, command_string, " ".join(file_name)])
     # subprocess.run(latexmk_command, shell=True)
