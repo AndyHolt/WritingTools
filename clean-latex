@@ -1,0 +1,9 @@
+#!/bin/zsh
+#
+# File: clean-latex
+# Description: Clean generated files from latex, except for the final pdf generated.
+# Author: Andy Holt
+# Date: Mon 09 May 2022 10:14
+
+rm -fr *.aux(N) *.bbl(N) *.bcf(N) *.log(N) *.out(N) *.pyg(N) *.run.xml(N) \
+  *.tic(N) *.toc(N) *.blg(N) _minted-*(N) *.xdv(N) *.fdb_latexmk(N) *.fls(N)
