@@ -9,3 +9,4 @@
 # error if no match for the given pattern is found.
 rm -fr *.aux(N) *.bbl(N) *.bcf(N) *.log(N) *.out(N) *.pyg(N) *.run.xml(N) \
   *.tic(N) *.toc(N) *.blg(N) _minted-*(N) *.xdv(N) *.fdb_latexmk(N) *.fls(N)
+rm -rf auto/
